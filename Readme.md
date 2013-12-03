@@ -13,12 +13,12 @@
     var mers = require('mers');
     app.use('/rest', mers({uri:'mongodb://localhost/rest_example_prod'}).rest());
 ```
-Configuration options include
-     uri://mongoose uri or
-     mongoose:mongoose, //your mongoose instance.
-     [error][error]:function //your custom error handler.
-     responseStream:function //your custom respost stream See: lib/streams.js
-     transformer:function //your custom transformer factory
+Configuration options include:
+* `uri:uri://mongoose`  (as shown above)
+* `mongoose:mongoose` (your mongoose instance)
+* `[error][error]:function` (your custom error handler)
+* `responseStream:function` (your custom respost stream. See: lib/streams.js)
+* `transformer:function` (your custom transformer factory)
 
 
 ###If you had a schema such as
@@ -188,6 +188,21 @@ You can transform your results by adding a custom transformer and or adding a ne
           } }).rest());
 
 ```
+
+### Selecting
+Selecting support is upcoming, but for now you can do it in finders
+
+```javascript
+ var User = new Schema({
+   username:String,
+   birthdate:Date
+ });
+ User.statics.selectJustIdAndUsername  = function(){
+  this.find({}).select('_id username');
+ }
+
+```
+
 
 ### Custom ResultStream
 You can create your own result stream. It needs to subclass Stream and be writable.  This can allow
